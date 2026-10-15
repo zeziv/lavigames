@@ -1,18 +1,27 @@
+"use client";
+
 import Image from "next/image";
 import type { Game } from "@/data/games";
+import { useA11yFlag } from "@/hooks/useA11yFlag";
 
 type GameCardProps = {
   game: Game;
 };
 
 export default function GameCard({ game }: GameCardProps) {
+  const screenReader = useA11yFlag("data-a11y-sr");
+
   return (
     <a
       className="game-card"
       href={game.href}
       target="_blank"
       rel="noopener noreferrer"
-      aria-label={`${game.name}: ${game.tagline} (opens in a new tab)`}
+      aria-label={
+        screenReader
+          ? `${game.name}: ${game.tagline.replace(/\.\s*$/, "")}. Opens ${game.href} in a new browser tab.`
+          : `${game.name}: ${game.tagline} (opens in a new tab)`
+      }
     >
       <div className="game-card__media">
         <Image

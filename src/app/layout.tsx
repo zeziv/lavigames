@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
+import AccessibilityMenu from "@/components/AccessibilityMenu";
 import LionBackground from "@/components/LionBackground";
 import SiteFooter from "@/components/SiteFooter";
 import { company } from "@/data/company";
@@ -41,8 +42,16 @@ export const metadata: Metadata = {
     "Lavi Games — a studio hub for competitive games including Poll Warrior and Territory Conquest.",
   metadataBase: new URL(company.website),
   icons: {
-    icon: [{ url: "/favicon.svg", type: "image/svg+xml" }],
+    icon: [
+      { url: "/favicon.png", type: "image/png" },
+      { url: "/favicon-32.png", sizes: "32x32", type: "image/png" },
+      { url: "/favicon-16.png", sizes: "16x16", type: "image/png" },
+      { url: "/favicon-64.png", sizes: "64x64", type: "image/png" },
+    ],
+    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
   },
+
+
 };
 
 export const viewport: Viewport = {
@@ -64,6 +73,7 @@ export default function RootLayout({
           {children}
           <SiteFooter />
         </div>
+        <AccessibilityMenu />
       </body>
     </html>
   );

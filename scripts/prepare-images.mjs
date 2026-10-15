@@ -1,5 +1,5 @@
 import sharp from "sharp";
-import { mkdir, copyFile } from "fs/promises";
+import { mkdir } from "fs/promises";
 import path from "path";
 import { fileURLToPath } from "url";
 
@@ -9,32 +9,14 @@ const gamesDir = path.join(imagesDir, "games");
 const assetsDir = path.join(root, "assets");
 
 await mkdir(gamesDir, { recursive: true });
-await mkdir(assetsDir, { recursive: true });
 
-const cursorAssets = path.join(
-  process.env.USERPROFILE || "",
-  ".cursor",
-  "projects",
-  "d-cursor-projects-lavigames",
-  "assets",
-);
-
-async function resolveSource(localName, cursorName) {
-  const local = path.join(assetsDir, localName);
-  try {
-    await sharp(local).metadata();
-    return local;
-  } catch {
-    const fallback = path.join(cursorAssets, cursorName);
-    await copyFile(fallback, local);
-    return local;
-  }
+async function requireSource(name) {
+  const local = path.join(assetsDir, name);
+  await sharp(local).metadata();
+  return local;
 }
 
-const lionSource = await resolveSource(
-  "lion-bg-source.jpg",
-  "lion-bg-cartoon.jpg",
-);
+const lionSource = await requireSource("lion-bg-source.jpg");
 
 await sharp(lionSource)
   .resize(2560, 1440, { fit: "cover", position: "right" })
@@ -46,22 +28,15 @@ await sharp(lionSource)
   .webp({ quality: 78 })
   .toFile(path.join(imagesDir, "lion-bg.webp"));
 
-async function prepareThumb(id, cursorFile) {
-  const source = await resolveSource(`${id}-source.jpg`, cursorFile);
-  const outBase = path.join(gamesDir, id);
-
+async function prepareThumb(id) {
+  const source = await requireSource(`${id}-source.jpg`);
   await sharp(source)
     .resize(1280, 720, { fit: "cover" })
     .webp({ quality: 82 })
-    .toFile(`${outBase}.webp`);
-
-  await sharp(source)
-    .resize(1280, 720, { fit: "cover" })
-    .png({ compressionLevel: 9, quality: 70, effort: 10 })
-    .toFile(`${outBase}.png`);
+    .toFile(path.join(gamesDir, `${id}.webp`));
 }
 
-await prepareThumb("poll-warrior", "poll-warrior-thumb.jpg");
-await prepareThumb("territory-conquest", "territory-conquest-thumb.jpg");
+await prepareThumb("poll-warrior");
+await prepareThumb("territory-conquest");
 
 console.log("Images prepared.");
