@@ -2,44 +2,41 @@
 
 import { company } from "@/data/company";
 import { useA11yFlag } from "@/hooks/useA11yFlag";
+import { useA11yVerbose } from "@/hooks/useA11yVerbose";
 
-export default function ContactContent() {
-  const screenReader = useA11yFlag("data-a11y-sr");
+export default function PoliciesContent() {
+  const verbose = useA11yVerbose();
+  const keyboard = useA11yFlag("data-a11y-keyboard");
+
+  const activateOnSpace = (
+    e: React.KeyboardEvent<HTMLAnchorElement>,
+  ) => {
+    if (!keyboard) return;
+    if (e.key !== " ") return;
+    e.preventDefault();
+    e.currentTarget.click();
+  };
 
   return (
     <>
-      <p>
-        For questions about {company.brand} or our games, email{" "}
-        <a
-          href={`mailto:${company.email}`}
-          aria-label={
-            screenReader
-              ? `Email Lavi Games at ${company.email}`
-              : undefined
-          }
-        >
-          {company.email}
-        </a>
-        .
-      </p>
       <p>
         <strong>Operator:</strong> {company.legalName}
         <br />
         <strong>Address:</strong> {company.address}
       </p>
       <p>
-        Legal terms, privacy, and refund policies for each game live on that
-        game&apos;s own site.
+        Terms and privacy for each game live on that game&apos;s own site.
       </p>
       <ul>
         <li>
           <a
             href="https://pw.lavigames.com/terms"
             aria-label={
-              screenReader
-                ? "Poll Warrior terms of service (opens on pw.lavigames.com)"
-                : undefined
+              verbose
+                ? "Poll Warrior terms of service. Opens on pw.lavigames.com."
+                : "Poll Warrior terms"
             }
+            onKeyDown={activateOnSpace}
           >
             Poll Warrior terms
           </a>
@@ -47,10 +44,11 @@ export default function ContactContent() {
           <a
             href="https://pw.lavigames.com/privacy"
             aria-label={
-              screenReader
-                ? "Poll Warrior privacy policy (opens on pw.lavigames.com)"
+              verbose
+                ? "Poll Warrior privacy policy. Opens on pw.lavigames.com."
                 : "Poll Warrior privacy"
             }
+            onKeyDown={activateOnSpace}
           >
             privacy
           </a>
@@ -59,10 +57,11 @@ export default function ContactContent() {
           <a
             href="https://tc.lavigames.com/terms"
             aria-label={
-              screenReader
-                ? "Territory Conquest terms of service (opens on tc.lavigames.com)"
-                : undefined
+              verbose
+                ? "Territory Conquest terms of service. Opens on tc.lavigames.com."
+                : "Territory Conquest terms"
             }
+            onKeyDown={activateOnSpace}
           >
             Territory Conquest terms
           </a>
@@ -70,10 +69,11 @@ export default function ContactContent() {
           <a
             href="https://tc.lavigames.com/privacy"
             aria-label={
-              screenReader
-                ? "Territory Conquest privacy policy (opens on tc.lavigames.com)"
+              verbose
+                ? "Territory Conquest privacy policy. Opens on tc.lavigames.com."
                 : "Territory Conquest privacy"
             }
+            onKeyDown={activateOnSpace}
           >
             privacy
           </a>

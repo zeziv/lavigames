@@ -3,13 +3,16 @@
 import Image from "next/image";
 import type { Game } from "@/data/games";
 import { useA11yFlag } from "@/hooks/useA11yFlag";
+import { useA11yVerbose } from "@/hooks/useA11yVerbose";
 
 type GameCardProps = {
   game: Game;
 };
 
 export default function GameCard({ game }: GameCardProps) {
-  const screenReader = useA11yFlag("data-a11y-sr");
+  const verbose = useA11yVerbose();
+  const keyboard = useA11yFlag("data-a11y-keyboard");
+  const tagline = game.tagline.replace(/\.\s*$/, "");
 
   return (
     <a
@@ -18,10 +21,18 @@ export default function GameCard({ game }: GameCardProps) {
       target="_blank"
       rel="noopener noreferrer"
       aria-label={
-        screenReader
-          ? `${game.name}: ${game.tagline.replace(/\.\s*$/, "")}. Opens ${game.href} in a new browser tab.`
+        verbose
+          ? `${game.name}. ${tagline}. ${game.thumbnailAlt}. Link opens ${game.href} in a new browser tab.`
           : `${game.name}: ${game.tagline} (opens in a new tab)`
       }
+      onKeyDown={(e) => {
+        if (!keyboard) return;
+        if (e.key !== " " && e.key !== "Enter") return;
+        if (e.key === " ") {
+          e.preventDefault();
+          e.currentTarget.click();
+        }
+      }}
     >
       <div className="game-card__media">
         <Image
@@ -34,8 +45,12 @@ export default function GameCard({ game }: GameCardProps) {
         />
       </div>
       <div className="game-card__body">
-        <h2 className="game-card__name">{game.name}</h2>
-        <p className="game-card__tagline">{game.tagline}</p>
+        <h2 className="game-card__name" aria-hidden="true">
+          {game.name}
+        </h2>
+        <p className="game-card__tagline" aria-hidden="true">
+          {game.tagline}
+        </p>
       </div>
     </a>
   );

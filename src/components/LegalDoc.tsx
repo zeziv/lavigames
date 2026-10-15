@@ -1,6 +1,4 @@
-import Link from "next/link";
 import type { ReactNode } from "react";
-import BrandMark from "@/components/BrandMark";
 import LegalDocNav from "@/components/LegalDocNav";
 
 type LegalDocProps = {
@@ -12,9 +10,6 @@ export default function LegalDoc({ title, children }: LegalDocProps) {
   return (
     <main id="main-content" className="legal-page" tabIndex={-1}>
       <header className="legal-page__header">
-        <Link href="/" className="wordmark wordmark--compact" aria-label="Lavi Games home">
-          <BrandMark compact />
-        </Link>
         <LegalDocNav />
       </header>
       <article className="legal-page__article">

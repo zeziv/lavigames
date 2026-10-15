@@ -122,6 +122,18 @@ ul {
   max-width: 100%;
 }
 
+.brand-mark-link {
+  display: inline-block;
+  max-width: 100%;
+  color: inherit;
+  text-decoration: none;
+}
+
+.brand-mark-link:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 4px;
+}
+
 .brand-mark__wordmark {
   display: block;
   width: min(100%, 26rem);
@@ -230,7 +242,7 @@ ul {
   justify-content: center;
 }
 
-.site-footer__contact {
+.site-footer__link {
   display: inline-flex;
   align-items: center;
   min-height: 2.5rem;
@@ -239,8 +251,8 @@ ul {
   border-bottom: 1px solid transparent;
 }
 
-.site-footer__contact:hover,
-.site-footer__contact:focus-visible {
+.site-footer__link:hover,
+.site-footer__link:focus-visible {
   color: var(--ink);
   border-bottom-color: var(--ink);
 }
@@ -267,7 +279,7 @@ ul {
     max-width: none;
   }
 
-  .site-footer__contact {
+  .site-footer__link {
     min-height: 0;
     padding: 0;
   }
@@ -579,6 +591,15 @@ html {
   display: inline-flex;
   align-items: center;
   min-height: 2.4rem;
+}
+
+#main-content:focus {
+  outline: none;
+}
+
+html[data-a11y-keyboard="on"] #main-content:focus {
+  outline: 3px solid #ffd166 !important;
+  outline-offset: 4px;
 }
 
 html[data-a11y-keyboard="on"] button:focus,

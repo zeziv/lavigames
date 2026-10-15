@@ -2,24 +2,24 @@
 
 import Link from "next/link";
 import { company } from "@/data/company";
-import { useA11yFlag } from "@/hooks/useA11yFlag";
+import { useA11yVerbose } from "@/hooks/useA11yVerbose";
 
 export default function SiteFooter() {
-  const screenReader = useA11yFlag("data-a11y-sr");
+  const verbose = useA11yVerbose();
 
   return (
     <footer className="site-footer" aria-label="Site footer">
-      <nav className="site-footer__nav" aria-label="Contact">
+      <nav className="site-footer__nav" aria-label="Site policies navigation">
         <Link
-          href="/contact"
-          className="site-footer__contact"
+          href="/policies"
+          className="site-footer__link"
           aria-label={
-            screenReader
-              ? "Contact Lavi Games — company contact details and game support links"
-              : undefined
+            verbose
+              ? "Policies. Operator details and links to game terms and privacy."
+              : "Policies"
           }
         >
-          Contact
+          Policies
         </Link>
       </nav>
       <p className="site-footer__copy">

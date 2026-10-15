@@ -182,6 +182,21 @@ export default function AccessibilityMenu() {
             ? " a11y-skip-link--visible"
             : ""
         }`}
+        onClick={(e) => {
+          e.preventDefault();
+          const main = document.getElementById("main-content");
+          if (!main) return;
+          main.focus({ preventScroll: false });
+          main.scrollIntoView({ block: "start" });
+        }}
+        onKeyDown={(e) => {
+          if (e.key !== " ") return;
+          e.preventDefault();
+          const main = document.getElementById("main-content");
+          if (!main) return;
+          main.focus({ preventScroll: false });
+          main.scrollIntoView({ block: "start" });
+        }}
       >
         Skip to main content
       </a>
@@ -226,7 +241,7 @@ export default function AccessibilityMenu() {
                   update("keyboardNav", on);
                   setStatus(
                     on
-                      ? "Keyboard navigation enabled. Press Tab to move focus."
+                      ? "Keyboard navigation enabled. Tab order: logo, game cards, Policies, Skip link, then Accessibility menu. Enter or Space activates links."
                       : "Keyboard navigation disabled.",
                   );
                 }}
@@ -238,7 +253,7 @@ export default function AccessibilityMenu() {
               <span id={`${panelId}-sr`}>
                 <strong>Screen-reader compatibility</strong>
                 <small>
-                  Clearer labels on game cards, contact links, and footer
+                  Clearer labels on game cards, policies links, and footer
                 </small>
               </span>
               <input
@@ -369,7 +384,11 @@ export default function AccessibilityMenu() {
         aria-controls={panelId}
         aria-haspopup="dialog"
         aria-label={
-          open ? "Close accessibility menu" : "Open accessibility menu"
+          open
+            ? "Close accessibility menu"
+            : prefs.keyboardNav || prefs.screenReader
+              ? "Open accessibility menu. Options for keyboard, screen reader, contrast, colorblind mode, motion, and text size."
+              : "Open accessibility menu"
         }
         onClick={() => setOpen((v) => !v)}
       >
