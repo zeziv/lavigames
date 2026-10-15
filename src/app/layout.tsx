@@ -1,10 +1,13 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
+import Script from "next/script";
 import AccessibilityMenu from "@/components/AccessibilityMenu";
 import LionBackground from "@/components/LionBackground";
 import SiteFooter from "@/components/SiteFooter";
 import { company } from "@/data/company";
 import "./globals.css";
+
+const ADSENSE_CLIENT = "ca-pub-2934267618765553";
 
 const display = localFont({
   src: "./fonts/bebas-neue-latin-400-normal.woff2",
@@ -50,9 +53,6 @@ export const metadata: Metadata = {
     ],
     apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
   },
-  other: {
-    "google-adsense-account": "ca-pub-2934267618765553",
-  },
 };
 
 export const viewport: Viewport = {
@@ -69,6 +69,12 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${display.variable} ${body.variable}`}>
       <body>
+        <Script
+          async
+          src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT}`}
+          crossOrigin="anonymous"
+          strategy="beforeInteractive"
+        />
         <LionBackground />
         <div className="shell">
           {children}
