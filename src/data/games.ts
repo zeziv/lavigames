@@ -13,7 +13,7 @@ export const games: Game[] = [
     id: "pw",
     name: "Poll Warrior",
     slug: "poll-warrior",
-    tagline: "Vote, buy votes, and fight for your team in live polls.",
+    tagline: "Vote. Fight. Climb the rankings",
     href: "https://pw.lavigames.com",
     thumbnail: "/images/games/poll-warrior.webp",
     thumbnailAlt: "Poll Warrior — competitive live poll arena",
